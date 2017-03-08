@@ -1,10 +1,10 @@
 import React from 'react'
 import Banner from './components/banner'
 
-var HomePage = React.createClass({
+var ListingsPage = React.createClass({
 	render: function(){
 		return (
-			<div className="home-page">
+			<div className="Listings-page">
 				<Banner />
 				<p>100% Not Not Fake</p>
 			</div>
@@ -12,4 +12,4 @@ var HomePage = React.createClass({
 	}
 })
 
-export default HomePage
+export default ListingsPage

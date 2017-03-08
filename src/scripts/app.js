@@ -2,64 +2,89 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
-import HomePage from './views/homePage.js'
+import ListingsPage from './views/listingsPage.js'
+//Syntax for importing from a file that is not 'default'
+import {ListingsCollection} from './models/listingModels.js'
 
 
-const app = function() {
-	console.log('app started')
-  	var NewsRouter = Backbone.Router.extend({
-  		
+var app = function() {
+
+	var NewsRouter = Backbone.Router.extend({
+
 		routes: {
-			'home': 'handleHomeListings',
-			'search/:query': 'handleResults',
-			'item/:id': 'handleItem',
+			'listings': 'handleListings',
+			'search/:query': 'handleListingSearch',
+			'details/:id': 'handleSingleListing',
 			'*defaultRoute': 'handleRedirect'
 		},
 
-		handleHomeListings: function() {
-			console.log('homepage initialized')
-			ReactDOM.render(<HomePage />,document.querySelector('.container'))
+		handleListings: function() {
+
+			ReactDOM.render(<ListingsPage />,document.querySelector('.container'))//ReactDOM.render will mount a React component onto the actual DOM
+			var collectionInstance = new ListingsCollection()
+			var promise = collectionInstance.fetch({
+				dataType: 'jsonp',
+				data:{
+					//'q':query,
+					'api_key': collectionInstance._key
+				}
+			}) 
+
+			//Right way
+			promise.then(function(){
+				//ReactDom.render mounts the article page component
+				//any key value pairs that we assign to the component upon rendering
+				//blah blah blah
+				//sticking a javascript name into jsx
+				ReactDOM.render(<ListingsPage 
+
+					cohort='awesome' 
+					student='kenji'
+					articleColl={collectionInstance}
+					/>, document.querySelector('.container'))
+			})
 		},
 
 		handleRedirect: function() {
-			console.log('redirect')
-			//location.hash = 'home'
+			location.hash = 'listings'
 		},
 
-		handleResults: function(query) {
-			console.log('results')
-			// var collectionInstance = new ArticleCollection()
-			// var promise = collectionInstance.fetch({
-			// 	data:{
-			// 		'q':query,
-			// 		'api-key': collectionInstance._key
-			// 	}
-			// }) 
-			// //Wrong way
-			// // promise.then(ReactDOM.render(<ArticlesPage cohort='awesome' student='kenji'/>, document.querySelector('.container')))	
+		handleListingSearch: function(query) {
+			var collectionInstance = new ListingsCollection()
+			var promise = collectionInstance.fetch({
+				data:{
+					'q':query,
+					'api-key': collectionInstance._key
+				}
+			}) 
 
-
-			// //Right way
-			// promise.then(function(){
-			// 	ReactDOM.render(<ArticlesPage 
-			// 		cohort='awesome' 
-			// 		student='kenji'
-			// 		articleColl={collectionInstance}
-			// 		/>, document.querySelector('.container'))
-			// })	
+			//Right way
+			promise.then(function(){
+				//ReactDom.render mounts the article page component
+				//any key value pairs that we assign to the component upon rendering
+				//blah blah blah
+				//sticking a javascript name into jsx
+				ReactDOM.render(<ListingsPage 
+					cohort='awesome' 
+					student='kenji'
+					articleColl={collectionInstance}
+					/>, document.querySelector('.container'))
+			})	
 
 		},
+		handleSingleListing: function(){
 
-		handleItem: function(){
-			console.log('item')
+
 		}
 	})
 	new NewsRouter 
 	Backbone.history.start()
 }
 
+
+
 // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..
 // NECESSARY FOR USER FUNCTIONALITY. DO NOT CHANGE. 
-export const app_name = init()
+export var app_name = init()
 app()
 // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..
