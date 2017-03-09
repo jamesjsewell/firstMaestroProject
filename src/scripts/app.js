@@ -20,12 +20,13 @@ var app = function() {
 
 		handleListings: function() {
 
-			ReactDOM.render(<ListingsPage />,document.querySelector('.container'))//ReactDOM.render will mount a React component onto the actual DOM
+			//ReactDOM.render(<ListingsPage />,document.querySelector('.container'))//ReactDOM.render will mount a React component onto the actual DOM
 			var collectionInstance = new ListingsCollection()
 			var promise = collectionInstance.fetch({
 				dataType: 'jsonp',
 				data:{
-					//'q':query,
+					'tags': "guitar,",
+					'includes': "Images",
 					'api_key': collectionInstance._key
 				}
 			}) 
@@ -36,11 +37,11 @@ var app = function() {
 				//any key value pairs that we assign to the component upon rendering
 				//blah blah blah
 				//sticking a javascript name into jsx
+				console.log(collectionInstance.models)
 				ReactDOM.render(<ListingsPage 
 
-					cohort='awesome' 
-					student='kenji'
-					articleColl={collectionInstance}
+				
+					listingColl={collectionInstance.models}
 					/>, document.querySelector('.container'))
 			})
 		},
