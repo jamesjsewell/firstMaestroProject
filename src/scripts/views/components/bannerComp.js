@@ -19,6 +19,9 @@ var Banner = React.createClass({
 				<div className = "search-bar">
 					<input type="search" onKeyDown={this._handleKeyDown}/>
 				</div>
+				<ul>
+  					<li><a class="active" href="#home">Home</a></li>
+				</ul>
 
 			</header>
 		)

@@ -5,7 +5,7 @@ import Listing from './components/listingComp.js'
 var ListingsPage = React.createClass({
 
 	_handleClick: function(eventObj){
-		if (eventObj.target.attributes.class.value === "listing-title") {
+		if (eventObj.target.attributes.class.value === "listing-thumbnail" || eventObj.target.attributes.class.value === "listing-title") {
 			console.log('clicked this')
 			location.hash = `details/${eventObj.target.attributes.id.value}`
 		}

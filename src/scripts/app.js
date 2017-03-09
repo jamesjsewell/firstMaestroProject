@@ -74,11 +74,10 @@ var app = function() {
 		handleSingleListing: function(selection){
 		
 			var detailsModelInstance = new DetailsModel()
+			detailsModelInstance.listingId = Number(selection)
 			var promise = detailsModelInstance.fetch({
 				dataType: 'jsonp',
 				data:{
-			
-					'id': selection,
 					'includes': "Images",
 					'api_key': detailsModelInstance._key
 				}
