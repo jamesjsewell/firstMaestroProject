@@ -33,13 +33,9 @@ var app = function() {
 
 			//Right way
 			promise.then(function(){
-				//ReactDom.render mounts the article page component
-				//any key value pairs that we assign to the component upon rendering
-				//blah blah blah
-				//sticking a javascript name into jsx
+
 				console.log(collectionInstance.models)
 				ReactDOM.render(<ListingsPage 
-
 				
 					listingColl={collectionInstance.models}
 					/>, document.querySelector('.container'))
@@ -51,24 +47,28 @@ var app = function() {
 		},
 
 		handleListingSearch: function(query) {
+			// var newTags = ""
+			// for(var i = 0; i < query.length; i++){
+			// 	newTags = newTags + "," + query[i]
+			// }
+			// console.log(newTags)
 			var collectionInstance = new ListingsCollection()
 			var promise = collectionInstance.fetch({
+				dataType: 'jsonp',
 				data:{
-					'q':query,
-					'api-key': collectionInstance._key
+					'tags': "guitar," + query,
+					'includes': "Images",
+					'api_key': collectionInstance._key
 				}
 			}) 
 
 			//Right way
 			promise.then(function(){
-				//ReactDom.render mounts the article page component
-				//any key value pairs that we assign to the component upon rendering
-				//blah blah blah
-				//sticking a javascript name into jsx
+
+				console.log(collectionInstance.models)
 				ReactDOM.render(<ListingsPage 
-					cohort='awesome' 
-					student='kenji'
-					articleColl={collectionInstance}
+				
+					listingColl={collectionInstance.models}
 					/>, document.querySelector('.container'))
 			})	
 
@@ -81,8 +81,6 @@ var app = function() {
 	new NewsRouter 
 	Backbone.history.start()
 }
-
-
 
 // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..
 // NECESSARY FOR USER FUNCTIONALITY. DO NOT CHANGE. 
