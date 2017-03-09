@@ -4,6 +4,13 @@ import Listing from './components/listingComp.js'
 
 var ListingsPage = React.createClass({
 
+	_handleClick: function(eventObj){
+		if (eventObj.target.attributes.class.value === "listing-title") {
+			console.log('clicked this')
+			location.hash = `details/${eventObj.target.attributes.id.value}`
+		}
+	},
+
 	_makeBanner: function(){
 
 		return <Banner />
@@ -23,7 +30,7 @@ var ListingsPage = React.createClass({
 	render: function(){
 		
 		return (
- 			<div>
+ 			<div onClick={this._handleClick}>
  				{this._makeBanner()}	
  				{this._makeListings()}		
  			</div>

@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
 import ListingsPage from './views/listingsPage.js'
+import DetailsPage from './views/detailsPage.js'
 //Syntax for importing from a file that is not 'default'
 import {ListingsCollection} from './models/listingModels.js'
-
+import {DetailsModel} from './models/detailsModel.js'
+var userSelection = ""
 
 var app = function() {
 
@@ -15,7 +17,7 @@ var app = function() {
 			'listings': 'handleListings',
 			'search/:query': 'handleListingSearch',
 			'details/:id': 'handleSingleListing',
-			'*defaultRoute': 'handleRedirect'
+			':splat': 'handleRedirect'
 		},
 
 		handleListings: function() {
@@ -36,7 +38,6 @@ var app = function() {
 
 				console.log(collectionInstance.models)
 				ReactDOM.render(<ListingsPage 
-				
 					listingColl={collectionInstance.models}
 					/>, document.querySelector('.container'))
 			})
@@ -47,11 +48,7 @@ var app = function() {
 		},
 
 		handleListingSearch: function(query) {
-			// var newTags = ""
-			// for(var i = 0; i < query.length; i++){
-			// 	newTags = newTags + "," + query[i]
-			// }
-			// console.log(newTags)
+			
 			var collectionInstance = new ListingsCollection()
 			var promise = collectionInstance.fetch({
 				dataType: 'jsonp',
@@ -73,8 +70,29 @@ var app = function() {
 			})	
 
 		},
-		handleSingleListing: function(){
 
+		handleSingleListing: function(selection){
+		
+			var detailsModelInstance = new DetailsModel()
+			var promise = detailsModelInstance.fetch({
+				dataType: 'jsonp',
+				data:{
+			
+					'id': selection,
+					'includes': "Images",
+					'api_key': detailsModelInstance._key
+				}
+			}) 
+
+			//Right way
+			promise.then(function(){
+
+				console.log(detailsModelInstance)
+				ReactDOM.render(<DetailsPage 
+				
+					detailsModel={detailsModelInstance}
+					/>, document.querySelector('.container'))
+			})
 
 		}
 	})
